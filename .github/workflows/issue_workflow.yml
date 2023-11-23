@@ -8,10 +8,9 @@ jobs:
   handle-issue:
     runs-on: ubuntu-latest
     steps:
-	  
-//TODO: add step to checkout repository
 
-//Get token
+    - uses: actions/checkout@v3.3.0
+    
     - name: Get Token for checkout target organizatiom
       id: get_workflow_token_target
       uses: peter-murray/workflow-application-token-action@v2
@@ -19,8 +18,6 @@ jobs:
        application_id: ${{ secrets.APP_ID }}
        application_private_key: ${{ secrets.APP_SECRET }}
           
-
-//TODO: Add step to read input by using action peter-murray/issue-forms-body-parser
     - name: Run Issue form parser
       id: parse
       uses: peter-murray/issue-forms-body-parser@v2.0.0
@@ -41,21 +38,17 @@ jobs:
             repo: context.repo.repo,
             body: 'Workflow started 🚀'
           });
-		
-		//TODO: Add step to read input by using 
 
-      - name: Publish output variables
-        uses: actions/github-script@v6
-        id: generate_variables
-        env:
+    - name: Publish output variables
+      uses: actions/github-script@v6
+      id: generate_variables
+      env:
           demo_payload: ${{ steps.parse.outputs.payload  }}
-        with:
+  	with:
           script: |
             demoPayload = JSON.parse(process.env.demo_payload);
             const repository = demoPayload['repo-name'];
-						return repository
-            
-          
+	    return repository;
 
     - name: Call Reusable Workflow
       uses: ./.github/workflows/create_repo_workflow.yml
