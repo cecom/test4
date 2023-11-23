@@ -1,0 +1,12 @@
+name: Name of your template
+description: Short description of what it does
+title: "GitHub setting up IssueOps"
+labels: ["newRepo"]
+body:
+  - type: "input"
+    attributes:
+      label: ">>repo-name<<"
+      description: "New Repo name"
+      placeholder: ""
+    validations:
+      required: true
